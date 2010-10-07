@@ -1,0 +1,12 @@
+body {
+    margin:30px;
+    background-color: #CDCDCD;
+}
+#container {
+    width:90%;
+    margin: 0 auto;
+    background-color: #FFFFFF;
+    padding:30px;
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+}

@@ -1,0 +1,59 @@
+<% if notice %><div class="notice"><%= notice %></div><% end %>
+
+<p>
+  <b>Name:</b>
+  <%= @track.name %>
+</p>
+
+<p>
+  <b>File:</b>
+  <%= @track.file %>
+</p>
+
+<% if @track.user != current_user %>
+<p>
+  <b>User:</b>
+  <%= @track.user.email %>
+</p>
+<% end %>
+
+<p>
+  <b>Date:</b>
+  <%= @track.date %>
+</p>
+
+<p>
+  <b>Notes:</b>
+  <%= @track.notes %>
+</p>
+
+<div id="map_canvas" style="width:100%; height: 480px;"></div>
+
+<%= link_to 'Edit', edit_track_path(@track) %> |
+<%= link_to 'Back', tracks_path %>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    var points = [];
+    var bounds = new google.maps.LatLngBounds();
+    <% @track.parse_gpx.each do |point| %>
+      points.push(new google.maps.LatLng(<%= point[0] %>, <%= point[1] %>));
+      bounds.extend(new google.maps.LatLng(<%= point[0] %>, <%= point[1] %>));
+    <% end %>
+
+    var myOptions = {
+      mapTypeId: google.maps.MapTypeId.TERRAIN
+    };
+
+    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    map.fitBounds(bounds);
+    var flightPath = new google.maps.Polyline({
+      map: map,
+      path: points,
+      strokeColor: "#FF0000",
+      strokeOpacity: 1.0,
+      strokeWeight: 2
+    });
+});
+</script>
+
